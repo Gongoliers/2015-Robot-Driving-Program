@@ -11,10 +11,8 @@ public class Robot extends SampleRobot {
 	private double initialGyro = 0;
 	RobotDrive myRobot;
 	Joystick stick;
-	Talon FL;
-	Talon FR;
-	Talon BR;
-	Talon BL;
+	int frontLeftMotor = 2, frontRightMotor = 3,
+			rearLeftMotor = 1, rearRightMotor = 0;
 	AnalogGyro gyro;
 //	final String defaultAuto = "Default";
 //	final String customAuto = "My Auto";
@@ -23,15 +21,11 @@ public class Robot extends SampleRobot {
 	public Robot() {
 		stick = new Joystick(0);
 
-		FR = new Talon(3);
-		FL = new Talon(2);
-		BR = new Talon(0);
-		BL = new Talon(1);
 		gyro = new AnalogGyro(0);
 	
-		myRobot = new RobotDrive(BL, BR, FL, FR);
-		myRobot.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, false);
-		myRobot.setInvertedMotor(RobotDrive.MotorType.kRearLeft, false);
+		myRobot = new RobotDrive(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor);
+		myRobot.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, true);
+		myRobot.setInvertedMotor(RobotDrive.MotorType.kRearLeft, true);
 		myRobot.setInvertedMotor(RobotDrive.MotorType.kFrontRight, true);
 		myRobot.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);		
 	}
@@ -44,6 +38,7 @@ public class Robot extends SampleRobot {
 
 	public void operatorControl() {
 		myRobot.setSafetyEnabled(true);
+//		initialGyro = 0;
 		while (isOperatorControl() && isEnabled()) {			
 			double y = stick.getY();
 			y = Math.max(-1, y);
